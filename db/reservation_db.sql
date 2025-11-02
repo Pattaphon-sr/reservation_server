@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Generation Time: Nov 02, 2025 at 03:34 PM
+-- Generation Time: Nov 02, 2025 at 04:24 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,13 +45,13 @@ CREATE TABLE `cells` (
 --
 
 INSERT INTO `cells` (`id`, `floor`, `x`, `y`, `type`, `room_no`, `is_hidden`, `base_status`, `created_at`, `updated_at`) VALUES
-(1, 3, 0, 0, 'empty', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-02 13:43:01'),
-(2, 3, 1, 0, 'empty', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-02 13:43:01'),
-(3, 3, 2, 0, 'empty', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-02 13:43:01'),
-(4, 3, 3, 0, 'empty', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-02 13:43:01'),
-(5, 3, 4, 0, 'empty', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-02 13:43:01'),
-(6, 3, 5, 0, 'empty', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-02 13:43:01'),
-(7, 3, 6, 0, 'empty', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-02 13:43:01'),
+(1, 3, 0, 0, 'room', '301', 0, 'free', '2025-11-02 13:43:01', '2025-11-02 15:15:57'),
+(2, 3, 1, 0, 'room', '302', 0, 'free', '2025-11-02 13:43:01', '2025-11-02 15:16:32'),
+(3, 3, 2, 0, 'corridor', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-02 15:22:39'),
+(4, 3, 3, 0, 'stair', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-02 15:22:47'),
+(5, 3, 4, 0, 'decoration', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-02 15:22:57'),
+(6, 3, 5, 0, 'room', '303', 0, 'free', '2025-11-02 13:43:01', '2025-11-02 15:23:29'),
+(7, 3, 6, 0, 'room', '304', 0, 'disabled', '2025-11-02 13:43:01', '2025-11-02 15:23:45'),
 (8, 3, 7, 0, 'empty', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-02 13:43:01'),
 (9, 3, 0, 1, 'empty', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-02 13:43:01'),
 (10, 3, 1, 1, 'empty', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-02 13:43:01'),
@@ -184,6 +184,15 @@ CREATE TABLE `reservations` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `reservations`
+--
+
+INSERT INTO `reservations` (`id`, `cell_id`, `slot_id`, `requested_by`, `approver_id`, `status`, `note`, `created_at`, `updated_at`) VALUES
+(1, 1, 'S1', 1, 3, 'rejected', 'test rejected', '2025-11-01 15:17:43', '2025-11-02 15:19:31'),
+(2, 1, 'S1', 1, NULL, 'pending', NULL, '2025-11-02 15:20:43', '2025-11-02 15:20:43'),
+(3, 2, 'S2', 1, 3, 'reserved', NULL, '2025-10-31 15:21:26', '2025-11-02 15:22:10');
+
 -- --------------------------------------------------------
 
 --
@@ -281,7 +290,7 @@ ALTER TABLE `cells`
 -- AUTO_INCREMENT for table `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
