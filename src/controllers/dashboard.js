@@ -220,10 +220,40 @@ exports.getDailyReservation = async (req, res) => {
 };
 
 
+exports.getDailyRequest = async (req, res) => {
+  try {
+    let baseQuery = `
+      SELECT 
+        r.id,
+        c.floor,
+        c.room_no AS room_name,
+        t.label AS slot_label,
+        r.status,
+        u.name AS requested_by_name,
+        DATE_FORMAT(r.created_at, '%Y-%m-%d %H:%i:%s') AS created_at,
+        DATE_FORMAT(r.created_at, '%d %b %Y %H:%i') AS full_datetime
+      FROM reservations r
+      JOIN cells c ON r.cell_id = c.id
+      JOIN time_slots t ON r.slot_id = t.id
+      JOIN users u ON r.requested_by = u.id
+      WHERE DATE(r.created_at) = CURDATE()
+        AND r.status = 'Pending'
+      ORDER BY r.created_at DESC;
+    `;
 
+    const [rows] = await pool.query(baseQuery);
 
+    return res.json({
+      message: 'success',
+      total: rows.length,
+      data: rows,
+    });
 
-
-// exports.getDailyRequest = async (req, res) => {
-
-// };
+  } catch (error) {
+    console.error('Error fetching daily requests:', error);
+    return res.status(500).json({
+      message: 'Error fetching daily requests',
+      error: error.message,
+    });
+  }
+};
