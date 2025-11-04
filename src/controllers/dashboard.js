@@ -171,3 +171,59 @@ exports.getDashboardSummary = async (req, res) => {
     });
   }
 };
+
+
+exports.getDailyReservation = async (req, res) => {
+  try {
+    const { userId } = req.query;
+
+    let baseQuery = `
+      SELECT 
+        r.id,
+        c.floor,
+        c.room_no AS room_name,
+        t.label AS slot_label,
+        r.status,
+        DATE_FORMAT(r.created_at, '%Y-%m-%d %H:%i:%s') AS created_at,
+        DATE_FORMAT(r.created_at, '%d %b %Y %H:%i') AS full_datetime
+      FROM reservations r
+      JOIN cells c ON r.cell_id = c.id
+      JOIN time_slots t ON r.slot_id = t.id
+      WHERE DATE(r.created_at) = CURDATE()
+        AND r.status = 'Pending'
+    `;
+
+    const params = [];
+
+    if (userId) {
+      baseQuery += ` AND r.requested_by = ?`;
+      params.push(userId);
+    }
+
+    baseQuery += ` ORDER BY r.created_at DESC`;
+
+    const [rows] = await pool.query(baseQuery, params);
+
+    return res.json({
+      message: 'success',
+      total: rows.length,
+      data: rows,
+    });
+
+  } catch (error) {
+    console.error('Error fetching daily reservation:', error);
+    return res.status(500).json({
+      message: 'Error fetching daily reservation',
+      error: error.message,
+    });
+  }
+};
+
+
+
+
+
+
+// exports.getDailyRequest = async (req, res) => {
+
+// };
