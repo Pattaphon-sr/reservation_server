@@ -29,13 +29,27 @@ async function signup(req, res) {
 
   const conn = await pool.getConnection();
   try {
+    // ดึง user ที่มี email หรือ username ซ้ำ
     const [existing] = await conn.query(
-      "SELECT * FROM users WHERE email = ? OR username = ?",
+      "SELECT email, username FROM users WHERE email = ? OR username = ?",
       [email, username]
     );
 
     if (existing.length > 0) {
-      return res.status(400).json({ message: "Email or username already exists" });
+      const existingUser = existing[0];
+      const emailExists = existingUser.email === email;
+      const usernameExists = existingUser.username === username;
+
+      let message = "";
+      if (emailExists && usernameExists) {
+        message = "Email and username already exists";
+      } else if (emailExists) {
+        message = "Email already exists";
+      } else if (usernameExists) {
+        message = "Username already exists";
+      }
+
+      return res.status(400).json({ message });
     }
 
     const hashedPassword = await argon2.hash(password);
