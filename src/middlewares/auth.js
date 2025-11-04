@@ -8,16 +8,20 @@ async function auth(req, res, next) {
     if (!token) return res.status(401).json({ message: 'Unauthorized' });
 
     const payload = verifyJwt(token);
-    // fetch role เผื่อมีการเปลี่ยนบทบาท
+    if (!payload) return res.status(401).json({ message: 'Invalid token' });
+
+    // ✅ ใช้ payload.id แทน payload.sub
     const [rows] = await pool.query(
       `SELECT id, username, email, role FROM users WHERE id=?`,
-      [payload.sub]
+      [payload.id]
     );
+
     if (!rows.length) return res.status(401).json({ message: 'Unauthorized' });
 
     req.user = rows[0];
     next();
   } catch (e) {
+    console.error(e);
     return res.status(401).json({ message: 'Unauthorized' });
   }
 }

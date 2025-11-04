@@ -1,12 +1,18 @@
 const jwt = require('jsonwebtoken');
 
-const signJwt = (payload, opts = {}) =>
-  jwt.sign(payload, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES || '7d',
-    ...opts,
-  });
+const JWT_SECRET = process.env.JWT_SECRET || 'supersecretkey';
+const EXPIRES_IN = '1h'; // หมดอายุใน 1 ชั่วโมง
 
-const verifyJwt = (token) =>
-  jwt.verify(token, process.env.JWT_SECRET);
+function signJwt(payload) {
+  return jwt.sign(payload, JWT_SECRET, { expiresIn: EXPIRES_IN });
+}
+
+function verifyJwt(token) {
+  try {
+    return jwt.verify(token, JWT_SECRET);
+  } catch (err) {
+    return null;
+  }
+}
 
 module.exports = { signJwt, verifyJwt };
