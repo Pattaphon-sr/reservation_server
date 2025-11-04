@@ -14,10 +14,11 @@ const pool = mysql.createPool({
 // ตั้งค่า session time_zone เป็น Thailand ทุกครั้งที่มี connection ใหม่
 pool.on('connection', async (conn) => {
   try {
-    await conn.query(`SET time_zone = '+07:00'`);
+    await conn.promise().query(`SET time_zone = '+07:00'`);
   } catch (e) {
     console.error('Cannot set session time_zone:', e.message);
   }
 });
+
 
 module.exports = { pool };

@@ -5,20 +5,31 @@ const { allowRoles } = require('../middlewares/roles');
 const router = Router();
 
 const {
-  getCellsForFloorSlot,
-  patchCell,
-  hideCell,
-  addRoomAt,
-  renameRoom
+  mapByFloorAndSlot,
+  updateType,
+  updateBaseStatus,
+  setHidden,
+  updateRoomNo,
+  provisionRoom,
+  swapWithHidden
 } = require('../controllers/cells.js');
 
-// Overlay slice สำหรับ Map (user, staff ใช้เหมือนกัน)
-router.get('/floors/:floor/cells', auth, getCellsForFloorSlot);
+// ============== Public/Authenticated (ทุกบทบาท) ==============
+router.get('/cells/map', mapByFloorAndSlot);
 
-// Staff only
-router.patch('/cells/:id', auth, allowRoles('staff'), patchCell);
-router.post('/cells/:id/hide', auth, allowRoles('staff'), hideCell);
-router.post('/cells/add-room', auth, allowRoles('staff'), addRoomAt);
-router.post('/cells/:id/rename', auth, allowRoles('staff'), renameRoom);
+// ============== Staff/Admin (แก้ผัง) ==============
+// router.put('/cells/:id/type', auth, allowRoles('staff'), updateType);
+// router.put('/cells/:id/base-status', auth, allowRoles('staff'), updateBaseStatus);
+// router.put('/cells/:id/hide', auth, allowRoles('staff'), setHidden);
+// router.put('/cells/:id/room', auth, allowRoles('staff'), updateRoomNo);
+// router.post('/cells/provision-room',  auth, allowRoles('staff'), provisionRoom);
+// router.post('/cells/swap-with-hidden', auth, allowRoles('staff'), swapWithHidden);
+
+router.put('/cells/:id/type', updateType);
+router.put('/cells/:id/base-status', updateBaseStatus);
+router.put('/cells/:id/hide', setHidden);
+router.put('/cells/:id/room', updateRoomNo);
+router.post('/cells/provision-room', provisionRoom);
+router.post('/cells/swap-with-hidden', swapWithHidden);
 
 module.exports = router;
