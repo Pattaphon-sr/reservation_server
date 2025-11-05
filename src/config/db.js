@@ -1,23 +1,30 @@
 const mysql = require('mysql2/promise');
+require('dotenv').config();
 
 const pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  port: +process.env.DB_PORT || 3306,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME,
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD || '',
+  database: process.env.DB_NAME || 'reservation_db', // ลบ .sql ออก
+  port: process.env.DB_PORT || 3306,
   waitForConnections: true,
   connectionLimit: 10,
-  timezone: 'Z' // ให้ส่ง/รับเป็น UTC แล้วเราจะ set session +07:00 ด้านล่าง
+  queueLimit: 0
 });
 
-// ตั้งค่า session time_zone เป็น Thailand ทุกครั้งที่มี connection ใหม่
-pool.on('connection', async (conn) => {
-  try {
-    await conn.query(`SET time_zone = '+07:00'`);
-  } catch (e) {
-    console.error('Cannot set session time_zone:', e.message);
-  }
-});
+// ทดสอบการเชื่อมต่อ
+pool.getConnection()
+  .then(conn => {
+    console.log('✅ Database connected successfully');
+    conn.release();
+  })
+  .catch(err => {
+    console.error('❌ Database connection failed:', err.message);
+    console.error('Check your .env file:');
+    console.error(`  DB_HOST: ${process.env.DB_HOST}`);
+    console.error(`  DB_USER: ${process.env.DB_USER}`);
+    console.error(`  DB_NAME: ${process.env.DB_NAME}`);
+    console.error(`  DB_PORT: ${process.env.DB_PORT}`);
+  });
 
 module.exports = { pool };

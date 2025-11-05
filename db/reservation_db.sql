@@ -196,6 +196,35 @@ INSERT INTO `reservations` (`id`, `cell_id`, `slot_id`, `requested_by`, `approve
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `reservation_history`
+--
+
+CREATE TABLE `reservation_history` (
+  `id` bigint(20) NOT NULL,
+  `reservation_id` bigint(20) NOT NULL,
+  `cell_id` int(11) NOT NULL,
+  `slot_id` varchar(4) NOT NULL,
+  `requested_by` int(11) NOT NULL,
+  `approver_id` int(11) DEFAULT NULL,
+  `previous_status` enum('pending','reserved','rejected') DEFAULT NULL,
+  `new_status` enum('pending','reserved','rejected') NOT NULL,
+  `action` enum('created','updated','approved','rejected','cancelled') NOT NULL,
+  `note` varchar(255) DEFAULT NULL,
+  `changed_by` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `reservation_history`
+--
+
+INSERT INTO `reservation_history` (`id`, `reservation_id`, `cell_id`, `slot_id`, `requested_by`, `approver_id`, `previous_status`, `new_status`, `action`, `note`, `changed_by`, `created_at`) VALUES
+(1, 1, 1, 'S1', 1, 3, 'pending', 'rejected', 'rejected', 'test rejected', 3, '2025-11-01 15:17:43'),
+(2, 2, 1, 'S1', 1, NULL, 'pending', 'reserved', 'created', NULL, 1, '2025-11-02 15:20:43');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `time_slots`
 --
 
@@ -263,6 +292,18 @@ ALTER TABLE `reservations`
   ADD KEY `idx_res_approver_id` (`approver_id`);
 
 --
+-- Indexes for table `reservation_history`
+--
+ALTER TABLE `reservation_history`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_history_reservation` (`reservation_id`),
+  ADD KEY `idx_history_cell` (`cell_id`),
+  ADD KEY `idx_history_slot` (`slot_id`),
+  ADD KEY `idx_history_requested_by` (`requested_by`),
+  ADD KEY `idx_history_changed_by` (`changed_by`),
+  ADD KEY `idx_history_created_at` (`created_at`);
+
+--
 -- Indexes for table `time_slots`
 --
 ALTER TABLE `time_slots`
@@ -293,6 +334,12 @@ ALTER TABLE `reservations`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `reservation_history`
+--
+ALTER TABLE `reservation_history`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
@@ -310,6 +357,16 @@ ALTER TABLE `reservations`
   ADD CONSTRAINT `fk_res_cell` FOREIGN KEY (`cell_id`) REFERENCES `cells` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_res_requester` FOREIGN KEY (`requested_by`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `fk_res_slot` FOREIGN KEY (`slot_id`) REFERENCES `time_slots` (`id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `reservation_history`
+--
+ALTER TABLE `reservation_history`
+  ADD CONSTRAINT `fk_history_reservation` FOREIGN KEY (`reservation_id`) REFERENCES `reservations` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_history_cell` FOREIGN KEY (`cell_id`) REFERENCES `cells` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_history_slot` FOREIGN KEY (`slot_id`) REFERENCES `time_slots` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_history_requester` FOREIGN KEY (`requested_by`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `fk_history_changed_by` FOREIGN KEY (`changed_by`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
