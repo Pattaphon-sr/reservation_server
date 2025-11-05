@@ -8,6 +8,7 @@ const {
   reject,
   createReservation,
   listReservations,
+  createReservationRequest
 } = require('../controllers/reservations.js');
 
 const router = Router();
@@ -22,6 +23,8 @@ router.get('/reservations/history', auth, history);
 router.get('/reservations/mine', auth, listMine);
 // user สร้างคำขอจอง
 router.post('/reservations', auth, createReservation);
+
+router.post('/reservations/request', createReservationRequest);
 
 // approver เห็นคำขอจองทั้งหมด
 router.get('/reservations', auth, listReservations);
