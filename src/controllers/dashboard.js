@@ -1,5 +1,6 @@
 const { pool } = require('../config/db');
 
+
 exports.getDashboardSummary = async (req, res) => {
   try {
     console.log('Fetching dashboard summary...');
@@ -30,8 +31,8 @@ exports.getDashboardSummary = async (req, res) => {
         t.id AS slot_id,
         t.label AS slot_label,
         COUNT(DISTINCT c.id) AS total_rooms,
-        COUNT(DISTINCT r.id) AS reserved_rooms,
-        (COUNT(DISTINCT c.id) - COUNT(DISTINCT r.id)) AS available_rooms
+        COUNT(DISTINCT r.cell_id) AS reserved_rooms,
+        (COUNT(DISTINCT c.id) - COUNT(DISTINCT r.cell_id)) AS available_rooms
       FROM cells c
       CROSS JOIN time_slots t
       LEFT JOIN reservations r
@@ -43,25 +44,22 @@ exports.getDashboardSummary = async (req, res) => {
       ORDER BY t.id, c.floor
     `);
 
-    // ตัด slot ที่หมดเวลา หรืออยู่นอกเวลาทำการ
     const adjustedAvailability = availableByFloorSlot.map(item => {
-      // 1️⃣ อยู่นอกช่วงเวลาทำการทั้งหมด
       if (isOutOfOperatingHours) {
         return {
           ...item,
-          available_rooms: 0 // เซ็ตเป็น 0 ทุก Slot
+          available_rooms: 0
         };
       }
 
-      // 2️⃣ อยู่ในช่วงเวลาทำการ ให้ตัด Slot ที่หมดเวลาแล้ว
       const [startH, startM, endH, endM] = item.slot_label.match(/\d+/g).map(Number);
       const slotEndMinutes = endH * 60 + endM;
 
       return {
         ...item,
         available_rooms: currentTotalMinutes >= slotEndMinutes
-          ? 0 // หมดเวลาแล้ว
-          : item.available_rooms // ยังไม่หมดเวลา
+          ? 0 
+          : item.available_rooms
       };
     });
 
@@ -154,7 +152,6 @@ exports.getDashboardSummary = async (req, res) => {
         AND c.is_hidden = 0;
     `);
 
-    // ------------------- ส่งข้อมูล JSON -------------------
     res.json({
       available_by_floor_slot: adjustedAvailability,
       overall_free_rooms: overallFreeRooms[0].total_free_rooms,
@@ -164,7 +161,7 @@ exports.getDashboardSummary = async (req, res) => {
     });
 
   } catch (err) {
-    console.error('❌ Dashboard Error:', err.message, err.stack);
+    console.error('Dashboard Error:', err.message, err.stack);
     res.status(500).json({
       message: 'Error generating dashboard',
       error: err.message || err.toString(),
@@ -222,14 +219,14 @@ exports.getDailyReservation = async (req, res) => {
 
 exports.getDailyRequest = async (req, res) => {
   try {
-    let baseQuery = `
+    const baseQuery = `
       SELECT 
         r.id,
         c.floor,
         c.room_no AS room_name,
         t.label AS slot_label,
         r.status,
-        u.name AS requested_by_name,
+        u.username AS requested_by,
         DATE_FORMAT(r.created_at, '%Y-%m-%d %H:%i:%s') AS created_at,
         DATE_FORMAT(r.created_at, '%d %b %Y %H:%i') AS full_datetime
       FROM reservations r
@@ -237,7 +234,7 @@ exports.getDailyRequest = async (req, res) => {
       JOIN time_slots t ON r.slot_id = t.id
       JOIN users u ON r.requested_by = u.id
       WHERE DATE(r.created_at) = CURDATE()
-        AND r.status = 'Pending'
+        AND r.status = 'pending'
       ORDER BY r.created_at DESC;
     `;
 

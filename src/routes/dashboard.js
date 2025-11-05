@@ -8,5 +8,6 @@ router.get('/dashboard', getDashboardSummary);
 router.get('/reservations/daily', getDailyReservation);
 
 router.get('/dailyRequest', getDailyRequest);
+// router.get('/reservations/daily', getDailyRequest);
 
 module.exports = router;
