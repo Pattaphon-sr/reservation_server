@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Generation Time: Nov 05, 2025 at 07:37 AM
+-- Generation Time: Nov 05, 2025 at 07:45 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -137,15 +137,15 @@ INSERT INTO `cells` (`id`, `floor`, `x`, `y`, `type`, `room_no`, `is_hidden`, `b
 (97, 5, 0, 2, 'room', '510', 0, 'free', '2025-11-02 13:43:01', '2025-11-04 20:23:51'),
 (98, 5, 1, 2, 'empty', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-02 13:43:01'),
 (99, 5, 2, 2, 'stair', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-04 19:59:53'),
-(100, 5, 3, 2, 'empty', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-04 19:58:29'),
+(100, 5, 3, 2, 'corridor', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-05 18:25:29'),
 (101, 5, 4, 2, 'decoration', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-04 19:58:51'),
 (102, 5, 5, 2, 'decoration', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-04 19:58:52'),
 (103, 5, 6, 2, 'decoration', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-04 19:58:53'),
 (104, 5, 7, 2, 'decoration', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-04 19:58:54'),
 (105, 5, 0, 3, 'room', '511', 0, 'free', '2025-11-02 13:43:01', '2025-11-04 20:23:55'),
 (106, 5, 1, 3, 'empty', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-02 13:43:01'),
-(107, 5, 2, 3, 'empty', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-02 13:43:01'),
-(108, 5, 3, 3, 'empty', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-02 13:43:01'),
+(107, 5, 2, 3, 'corridor', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-05 18:24:08'),
+(108, 5, 3, 3, 'corridor', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-05 18:24:04'),
 (109, 5, 4, 3, 'decoration', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-04 19:58:49'),
 (110, 5, 5, 3, 'decoration', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-04 19:58:38'),
 (111, 5, 6, 3, 'decoration', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-04 19:58:39'),
@@ -153,7 +153,7 @@ INSERT INTO `cells` (`id`, `floor`, `x`, `y`, `type`, `room_no`, `is_hidden`, `b
 (113, 5, 0, 4, 'room', '512', 0, 'free', '2025-11-02 13:43:01', '2025-11-04 20:24:01'),
 (114, 5, 1, 4, 'empty', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-02 13:43:01'),
 (115, 5, 2, 4, 'stair', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-04 19:59:54'),
-(116, 5, 3, 4, 'empty', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-02 13:43:01'),
+(116, 5, 3, 4, 'corridor', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-05 18:24:05'),
 (117, 5, 4, 4, 'decoration', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-04 19:58:48'),
 (118, 5, 5, 4, 'decoration', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-04 19:58:35'),
 (119, 5, 6, 4, 'decoration', NULL, 0, 'disabled', '2025-11-02 13:43:01', '2025-11-04 19:58:34'),
@@ -163,8 +163,8 @@ INSERT INTO `cells` (`id`, `floor`, `x`, `y`, `type`, `room_no`, `is_hidden`, `b
 (130, 3, 1, 1, 'empty', NULL, 0, 'disabled', '2025-11-04 16:18:45', '2025-11-04 16:18:45'),
 (134, 3, 7, 1, 'empty', NULL, 0, 'disabled', '2025-11-04 16:27:20', '2025-11-04 16:27:20'),
 (135, 4, 2, 4, 'stair', NULL, 0, 'disabled', '2025-11-04 20:00:40', '2025-11-04 20:00:58'),
-(136, 4, 3, 4, 'empty', NULL, 0, 'disabled', '2025-11-04 20:00:43', '2025-11-04 20:00:43'),
-(137, 4, 4, 4, 'empty', NULL, 0, 'disabled', '2025-11-04 20:00:45', '2025-11-04 20:00:45'),
+(136, 4, 3, 4, 'corridor', NULL, 0, 'disabled', '2025-11-04 20:00:43', '2025-11-05 17:17:43'),
+(137, 4, 4, 4, 'corridor', NULL, 0, 'disabled', '2025-11-04 20:00:45', '2025-11-05 17:17:44'),
 (141, 4, 0, 4, 'decoration', NULL, 0, 'disabled', '2025-11-04 20:01:29', '2025-11-04 20:01:33'),
 (142, 4, 1, 4, 'corridor', NULL, 0, 'disabled', '2025-11-04 20:01:31', '2025-11-04 20:01:35'),
 (143, 3, 3, 2, 'decoration', NULL, 0, 'disabled', '2025-11-04 20:08:13', '2025-11-04 20:08:15');
@@ -241,7 +241,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `email`, `username`, `password`, `role`, `created_at`, `updated_at`) VALUES
 (1, 'lisa@gmail.com', 'Lisa', '$argon2id$v=19$m=19456,t=2,p=1$R7ZGdkHg/Qiv3FhArKLvGQ$ai/QTh1eSI8poDzjktHhH3S+7NbZQ5ZUUZ425226xS0', 'user', '2025-11-02 13:54:06', '2025-11-02 13:54:06'),
 (2, 'staff@gmail.com', 'Adbird', '$argon2id$v=19$m=19456,t=2,p=1$n7BgWAoeMPH31oign/3DMw$vVqncSecZ26k8t8tsJbqsNudguhMZN4Ug9BFYzK7Djs', 'staff', '2025-11-02 13:56:10', '2025-11-02 13:56:10'),
-(3, 'approver@gmail.com', 'AdPingPong', '$argon2id$v=19$m=19456,t=2,p=1$ASN94L8l9kgeTWR5wEeMzA$Qeht4VUSkHHsutLSsjzBWm+QBCqr8+OoAUkpDN3js5I', 'approver', '2025-11-02 13:58:01', '2025-11-02 13:58:01');
+(3, 'approver@gmail.com', 'AdPingPong', '$argon2id$v=19$m=19456,t=2,p=1$ASN94L8l9kgeTWR5wEeMzA$Qeht4VUSkHHsutLSsjzBWm+QBCqr8+OoAUkpDN3js5I', 'approver', '2025-11-02 13:58:01', '2025-11-02 13:58:01'),
+(6, 'tom@gmail.com', 'tommy', '$argon2id$v=19$m=19456,t=2,p=1$Q9rrjdrE9I6QQ9AvVZ+X6w$NKonSgrFwdvo6pqgHjY5DgrqdGSjlV0WEjRXPU13S0Q', 'user', '2025-11-05 09:36:58', '2025-11-05 09:36:58');
 
 --
 -- Indexes for dumped tables
@@ -300,7 +301,7 @@ ALTER TABLE `reservations`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables
