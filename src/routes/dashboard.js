@@ -4,10 +4,8 @@ const { getDashboardSummary, getDailyReservation, getDailyRequest } = require('.
 
 const router = Router();
 
-router.get('/dashboard', getDashboardSummary);
-router.get('/reservations/daily', getDailyReservation);
-
-router.get('/dailyRequest', getDailyRequest);
-// router.get('/reservations/daily', getDailyRequest);
+router.get('/dashboard', auth, getDashboardSummary);
+router.get('/reservations/daily', auth, getDailyReservation);
+router.get('/dailyRequest', auth, getDailyRequest);
 
 module.exports = router;

@@ -1,6 +1,5 @@
 const { pool } = require('../config/db');
 
-
 exports.getDashboardSummary = async (req, res) => {
   try {
     console.log('Fetching dashboard summary...');
@@ -169,7 +168,6 @@ exports.getDashboardSummary = async (req, res) => {
   }
 };
 
-
 exports.getDailyReservation = async (req, res) => {
   try {
     const { userId } = req.query;
@@ -215,7 +213,6 @@ exports.getDailyReservation = async (req, res) => {
     });
   }
 };
-
 
 exports.getDailyRequest = async (req, res) => {
   try {

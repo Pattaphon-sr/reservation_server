@@ -43,14 +43,6 @@ exports.history = async (req, res) => {
   }
 };
 
-exports.listMine = async (req, res) => {
-    // Logic สำหรับ User ดึงประวัติการจอง "ของฉัน"
-    res.status(501).json({ message: 'ListMine endpoint not implemented' });
-};
-
-exports.createReservation = async () => {
-};
-
 exports.createReservationRequest = async (req, res) => {
   const { cell_id, slot_id, requested_by } = req.body;
 
@@ -123,8 +115,7 @@ exports.createReservationRequest = async (req, res) => {
   }
 };
 
-
-// ===================== ส่วนของ Approver (Implement แล้ว) =====================
+// ===================== Approver =====================
 
 /**
  * (Approver Only)
