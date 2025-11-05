@@ -15,7 +15,7 @@ const router = Router();
 // user: เห็นของตัวเอง (requested_by = me)
 // approver: เห็นเฉพาะที่ตัวเองเป็นคนพิจารณา (approved_by = me)
 // staff: เห็นของ approver ทุกคน (approved_by IS NOT NULL)
-router.get('/reservations/history', auth, history);
+router.get('/reservations/history', history);
 
 // user สร้างคำขอจอง
 router.post('/reservations/request', auth, createReservationRequest);
