@@ -97,8 +97,8 @@ exports.createReservationRequest = async (req, res) => {
     const hasPending = userToday.some(r => r.status === 'pending');
     const hasReserved = userToday.some(r => r.status === 'reserved');
 
-    if (hasPending) return res.status(409).json({ message: "วันนี้คุณมีคำขอ Pending อยู่แล้ว" });
-    if (hasReserved) return res.status(409).json({ message: "วันนี้คุณมีการจอง Reserved แล้ว" });
+    if (hasPending) return res.status(409).json({ message: "You already have a pending request today." });
+    if (hasReserved) return res.status(409).json({ message: "You already have a reservation today." });
 
     // ====== insert request ======
     await pool.query(
