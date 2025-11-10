@@ -60,15 +60,15 @@ exports.createReservationRequest = async (req, res) => {
     );
 
     if (cellCheck.length === 0) {
-      return res.status(404).json({ message: "cell_id นี้ไม่มีอยู่ในระบบ" });
+      return res.status(404).json({ message: "Invalid cell_id — not found in the system." });
     }
 
     if (cellCheck[0].type === 'empty') {
-      return res.status(409).json({ message: "ตำแหน่งนี้ไม่ใช่ห้อง จองไม่ได้" });
+      return res.status(409).json({ message: "This location is not a room — booking is not allowed." });
     }
 
     if (cellCheck[0].is_hidden == 1) {
-      return res.status(409).json({ message: "ห้องนี้ถูกซ่อนอยู่ ไม่สามารถจองได้" });
+      return res.status(409).json({ message: "This room is hidden — booking is not allowed." });
     }
 
     // ====== ห้องนี้เวลานี้มีคนจองไปรึยัง (pending / reserved) ======
@@ -83,7 +83,7 @@ exports.createReservationRequest = async (req, res) => {
 
     if (roomUsed.length > 0) {
       if (roomUsed[0].requested_by != requested_by) {
-        return res.status(409).json({ message: "ห้องนี้เวลานี้มีคนจองไปแล้ว" });
+        return res.status(409).json({ message: "This room is hidden — booking is not allowed." });
       }
     }
 
@@ -107,7 +107,7 @@ exports.createReservationRequest = async (req, res) => {
       [cell_id, slot_id, requested_by]
     );
 
-    return res.json({ message: "ส่งคำขอสำเร็จ" });
+    return res.json({ message: "This room is hidden — booking is not allowed." });
 
   } catch (err) {
     console.error(err);
